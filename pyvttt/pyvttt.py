@@ -4,11 +4,11 @@ from argparse import Namespace
 
 __version__ = metadata.version(__package__ or __name__)
 
-from example_tool.models.log_level import LogLevel
-from example_tool.shared.utils.logger import Logger
+from pyvttt.models.log_level import LogLevel
+from pyvttt.shared.utils.logger import Logger
 
 
-class ExampleTool:
+class Pyvttt:
     def __init__(self):
         self.logger = Logger()
         self.args = self.parse_args()
@@ -23,7 +23,7 @@ class ExampleTool:
 
     @staticmethod
     def parse_args() -> Namespace:
-        parser = argparse.ArgumentParser(description="This is a template repository to build Python CLI tool.")
+        parser = argparse.ArgumentParser(description="pyvttt is a simple Video-to-Text Transcriber written in Python.")
         parser.add_argument('--verbose', '-v', action='count', default=1,
                             help='Increase verbosity. Use more than once to increase verbosity level (e.g. -vvv).')
         parser.add_argument('--debug', action='store_true', default=False,

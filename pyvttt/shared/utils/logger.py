@@ -1,6 +1,6 @@
 import logging
 
-from example_tool.models.log_level import LogLevel
+from pyvttt.models.log_level import LogLevel
 
 
 class Logger:

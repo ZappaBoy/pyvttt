@@ -1,6 +1,6 @@
-# example_tool
+# pyvttt
 
-`example_tool` is a template repository to build Python CLI tool.
+`pyvttt` is a simple Video-to-Text Transcriber written in Python.
 
 ## Installation
 
@@ -16,23 +16,23 @@ poetry install
 You can run the tool using poetry:
 
 ``` shell
-poetry run example_tool --help
+poetry run pyvttt --help
 ```
 
 Or you can run the tool using python:
 
 ``` shell
-python -m example_tool --help
+python -m pyvttt --help
 ```
 
 Or you can run the tool directly from the directory or add it to your path:
 
 ``` shell
-example_tool --help
+pyvttt --help
 ```
 
 ```shell
-usage: example_tool [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version]
+usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version]
 
 This is a template repository to build Python CLI tool.
 
