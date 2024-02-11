@@ -11,6 +11,14 @@ dependencies simply run:
 poetry install
 ```
 
+To run `pyvttt` with gpu support you need to install additional dependencies based on your gpu vendor:
+
+``` shell
+poetry install --with nvidia
+# or
+poetry install --with amd
+```
+
 ## Usage
 
 You can run the tool using poetry:
@@ -32,9 +40,9 @@ pyvttt --help
 ```
 
 ```shell
-usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version]
+usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version] [--url URL] [--file FILE] [--output OUTPUT] [--stdout | --no-stdout | -s] [--threads THREADS]
 
-This is a template repository to build Python CLI tool.
+pyvttt is a simple Video-to-Text Transcriber written in Python.
 
 options:
   -h, --help            show this help message and exit
@@ -43,7 +51,31 @@ options:
   --quiet, --no-quiet, -q
                         Do not print any output/log
   --version             Show version and exit.
+  --url URL, -u URL     URL of the video to download and transcribe.
+  --file FILE, -f FILE  Path to file with urls to download and transcribe.
+  --output OUTPUT, -o OUTPUT
+                        Path to save the transcription.
+  --stdout, --no-stdout, -s
+  --threads THREADS, -t THREADS
+                        Number of threads to use. Default is half of the available cores.
+```
 
+## Transcribe single video by url
+
+```shell
+pyvttt --url youtube_url --output transcription.txt
+```
+
+## Transcribe multiple videos reading urls from a file
+
+```shell
+pyvttt --file urls.txt --output transcriptions
+```
+
+## Use more threads
+
+```shell
+pyvttt [...] --threads 16
 ```
 
 ## Development
@@ -64,8 +96,9 @@ To update the `setup.py` file with the latest dependencies and versions run:
 poetry run poetry2setup > setup.py
 ```
 
-### Acknowledgements
+## Acknowledgements
 
 This project was generated using powerful tools and libraries such as [poetry](https://python-poetry.org/),
-[pydantic](https://docs.pydantic.dev/latest/), [pytest](https://docs.pytest.org/en/stable/) and more, I simply put the
+[pydantic](https://docs.pydantic.dev/latest/), [pytest](https://docs.pytest.org/en/stable/), [openai-whisper](https://github.com/openai/whisper), [pytube](https://github.com/pytube/pytube)
+and more, I simply put the
 pieces together. Please check and support all the tools and libraries used in this project.
