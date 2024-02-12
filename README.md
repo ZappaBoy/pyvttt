@@ -71,7 +71,8 @@ options:
 ## Transcribe single video by url
 
 ```shell
-pyvttt --url youtube_url --output transcription.txt
+# note the double quotes around the url
+pyvttt --url "youtube_url" --output transcription.txt
 ```
 
 ## Transcribe multiple videos reading urls from a file
