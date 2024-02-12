@@ -11,11 +11,20 @@ dependencies simply run:
 poetry install
 ```
 
-`pyvttt` uses gpu support by default if it's available. There is no need of any additional dependencies for Nvidia gpus.
-If you have an AMD gpu you can install the dependencies uncommenting the `torch` and `torchvision` lines in
+`pyvttt` uses gpu support by default if it's available. There is no need of any additional dependencies for `Nvidia`
+gpus.
+If you have an `AMD` gpu you can install the `ROCm` dependencies uncommenting the `torch` and `torchvision` specific
+lines in
 the `pyproject.toml` file and running the following command:
 ``` shell
 poetry lock && poetry install
+```
+
+Don't forget to set the `ROCm` environment variable based on your system configuration. Example for `ROCm (6.0.0)`
+and `AMD 6700XT` gpu:
+
+``` shell
+export HSA_OVERRIDE_GFX_VERSION=10.3.0
 ```
 
 ## Usage
