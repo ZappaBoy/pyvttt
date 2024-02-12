@@ -11,12 +11,11 @@ dependencies simply run:
 poetry install
 ```
 
-To run `pyvttt` with gpu support you need to install additional dependencies based on your gpu vendor:
-
+`pyvttt` uses gpu support by default if it's available. There is no need of any additional dependencies for Nvidia gpus.
+If you have an AMD gpu you can install the dependencies uncommenting the `torch` and `torchvision` lines in
+the `pyproject.toml` file and running the following command:
 ``` shell
-poetry install --with nvidia
-# or
-poetry install --with amd
+poetry lock && poetry install
 ```
 
 ## Usage

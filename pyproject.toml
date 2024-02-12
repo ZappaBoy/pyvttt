@@ -13,25 +13,15 @@ pydantic = "^2.4.2"
 pytube = "^15.0.0"
 openai-whisper = "^20231117"
 
+# Uncomment the following lines to use the pre-built rocm wheels for torch and torchvision
+# torch = { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0/torch-2.1.1%2Brocm6.0-cp311-cp311-linux_x86_64.whl"}
+# torchvision = { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0/torchvision-0.16.1%2Brocm6.0-cp311-cp311-linux_x86_64.whl" }
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"
 python-dotenv = "^1.0.0"
 poetry2setup = "^1.1.0"
 pytest-env = "^0.8.1"
-
-[tool.poetry.group.nvidia]
-optional = true
-
-[tool.poetry.group.nvidia.dependencies]
-torch = "^2.1.1"
-torchvision = "^0.16.1"
-
-[tool.poetry.group.amd]
-optional = true
-
-[tool.poetry.group.amd.dependencies]
-torch = { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0/torch-2.1.1%2Brocm6.0-cp311-cp311-linux_x86_64.whl" }
-torchvision = { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0/torchvision-0.16.1%2Brocm6.0-cp311-cp311-linux_x86_64.whl" }
 
 [tool.pytest.ini_options]
 addopts = "-s -v"
