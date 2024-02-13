@@ -75,8 +75,83 @@ options:
 pyvttt --url "youtube_url" --output transcription.txt
 ```
 
+## Translate the transcription
+
+You can choose to translate the audio transcription using the `--translate` option:
+
+```shell
+pyvttt --url "youtube_url" --output transcription.txt --translate it
+# or
+pyvttt --url "youtube_url" --output transcription.txt --translate italian
+```
+
+### Supported languages
+
+```text
+- arabic (ar)
+- czech (cs)
+- german (de)
+- english (en)
+- spanish (es)
+- estonian (et)
+- finnish (fi)
+- french (fr)
+- gujarati (gu)
+- hindi (hi)
+- italian (it)
+- japanese (ja)
+- kazakh (kk)
+- korean (ko)
+- lithuanian (lt)
+- latvian (lv)
+- burmese (my)
+- nepali (ne)
+- dutch (nl)
+- romanian (ro)
+- russian (ru)
+- sinhala (si)
+- turkish (tr)
+- vietnamese (vi)
+- chinese (zh)
+- afrikaans (af)
+- azerbaijani (az)
+- bengali (bn)
+- persian (fa)
+- hebrew (he)
+- croatian (hr)
+- indonesian (id)
+- georgian (ka)
+- khmer (km)
+- macedonian (mk)
+- malayalam (ml)
+- mongolian (mn)
+- marathi (mr)
+- polish (pl)
+- pashto (ps)
+- portuguese (pt)
+- swedish (sv)
+- swahili (sw)
+- tamil (ta)
+- telugu (te)
+- thai (th)
+- tagalog (tl)
+- ukrainian (uk)
+- urdu (ur)
+- xhosa (xh)
+- galician (gl)
+- slovene (sl)
+```
+
 ## Transcribe multiple videos reading urls from a file
 
+You can run `pyvttt` on multiple videos by using file with urls:
+
+```bash
+first_video_url_here
+second_video_url_here
+# this is a commented line that will be ignored
+third_video_url_here
+```
 ```shell
 pyvttt --file urls.txt --output transcriptions
 ```
