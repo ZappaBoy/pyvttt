@@ -12,6 +12,9 @@ python = ">=3.11,<3.12"
 pydantic = "^2.4.2"
 pytube = "^15.0.0"
 openai-whisper = "^20231117"
+transformers = "^4.37.2"
+sentencepiece = "^0.1.99"
+protobuf = "^4.25.2"
 
 # Uncomment the following lines to use the pre-built rocm wheels for torch and torchvision
 # torch = { url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0/torch-2.1.1%2Brocm6.0-cp311-cp311-linux_x86_64.whl"}
