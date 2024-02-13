@@ -39,7 +39,7 @@ class Pyvttt:
                 os.makedirs(output_dir, exist_ok=True)
 
         self.content_downloader = ContentDownloader()
-        self.transcriber = Transcriber()
+        self.transcriber = Transcriber(force_cpu=self.args.cpu)
 
         if self.args.threads:
             self.logger.info(f"Setting number of threads to {self.args.threads}")
@@ -89,6 +89,10 @@ class Pyvttt:
         parser.add_argument('--stdout', '-s', action=argparse.BooleanOptionalAction, default=False)
         parser.add_argument('--threads', '-t', type=int, default=multiprocessing.cpu_count() // 2,
                             help='Number of threads to use. Default is half of the available cores.')
+        parser.add_argument('--cpu', '-c', action=argparse.BooleanOptionalAction, default=False,
+                            help='Force to use CPU instead of GPU.')
+        parser.add_argument('--force-download', '-d', action=argparse.BooleanOptionalAction, default=False,
+                            help='Force to download the video even if it is already downloaded')
         return parser.parse_args()
 
     def check_args(self) -> None:

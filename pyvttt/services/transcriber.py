@@ -8,8 +8,10 @@ CPU = "CPU"
 
 class Transcriber:
 
-    def __init__(self):
+    def __init__(self, force_cpu: bool = False):
         self.logger = Logger()
+        if force_cpu:
+            whisper.torch.cuda.is_available = lambda: False
         self.device = GPU if whisper.torch.cuda.is_available() else CPU
         self.logger.info(f"Using device: {self.device}")
         # Check available models using "whisper.available_models()"
