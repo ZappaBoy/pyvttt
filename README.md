@@ -59,7 +59,7 @@ options:
   --verbose, -v         Increase verbosity. Use more than once to increase verbosity level (e.g. -vvv).
   --debug               Enable debug mode.
   --quiet, --no-quiet, -q
-                        Do not print any output/log
+                        Do not print any output/log.
   --version             Show version and exit.
   --url URL [URL ...], -u URL [URL ...]
                         URL(s) of the video to download and transcribe.
@@ -71,13 +71,13 @@ options:
                         Number of threads to use. Default is half of the available cores.
   --cpu, --no-cpu, -c   Force to use CPU instead of GPU.
   --force-download, --no-force-download, -d
-                        Force to download the video even if it is already downloaded
+                        Force to download the video even if it is already downloaded.
   --translate TRANSLATE, -l TRANSLATE
                         Translate transcription to the specified language. Default is english.
   --summarize SUMMARIZE, -m SUMMARIZE
                         Summarize transcription, you can define a summarization strength between 0 and 100. Suggested value: 90.
   --audio AUDIO [AUDIO ...], -a AUDIO [AUDIO ...]
-                        Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg
+                        Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg.
 ```
 
 ## Transcribe single video by url

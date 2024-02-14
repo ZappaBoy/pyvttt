@@ -129,7 +129,7 @@ class Pyvttt:
         parser.add_argument('--debug', action='store_true', default=False,
                             help='Enable debug mode.')
         parser.add_argument('--quiet', '-q', action=argparse.BooleanOptionalAction, default=False,
-                            required=False, help='Do not print any output/log')
+                            required=False, help='Do not print any output/log.')
         parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}',
                             help='Show version and exit.')
         parser.add_argument('--url', '-u', type=str, nargs='+',
@@ -142,14 +142,14 @@ class Pyvttt:
         parser.add_argument('--cpu', '-c', action=argparse.BooleanOptionalAction, default=False,
                             help='Force to use CPU instead of GPU.')
         parser.add_argument('--force-download', '-d', action=argparse.BooleanOptionalAction, default=False,
-                            help='Force to download the video even if it is already downloaded')
+                            help='Force to download the video even if it is already downloaded.')
         parser.add_argument('--translate', '-l', type=str,
                             help='Translate transcription to the specified language. Default is english.')
         parser.add_argument('--summarize', '-m', type=int,
                             help='Summarize transcription, you can define a summarization strength between 0 and 100. '
                                  'Suggested value: 90.')
         parser.add_argument('--audio', '-a', type=argparse.FileType('r'), nargs='+',
-                            help='Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg')
+                            help='Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg.')
         return parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
     def check_args(self) -> None:
