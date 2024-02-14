@@ -33,7 +33,7 @@ class Summarizer(AbstractModelService):
     def summarize(self, text: str, strength: int) -> str:
         self.load_model()
         max_length = len(text.split(' ')) * strength // 100
-        min_length = max_length * 80 // 100
+        min_length = max_length * 90 // 100
         summary = self.model(text, max_length=max_length, min_length=min_length, do_sample=False)
         self.clean_memory()
         return summary[0]['summary_text']

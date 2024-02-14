@@ -9,6 +9,7 @@ from pyvttt.services.abstract_model_service import AbstractModelService
 class Translator(AbstractModelService):
     model = None
     tokenizer = None
+    max_tokens = 1024
 
     def __init__(self, force_cpu: bool = False):
         super().__init__(force_cpu)
@@ -27,7 +28,7 @@ class Translator(AbstractModelService):
         super().set_device(device)
 
     def load_model(self) -> None:
-        if self.model_name is None or self.tokenizer is None:
+        if self.model is None or self.tokenizer is None:
             self.model = MBartForConditionalGeneration.from_pretrained(self.model_name)
             self.tokenizer = MBart50TokenizerFast.from_pretrained(self.model_name)
 
@@ -38,16 +39,32 @@ class Translator(AbstractModelService):
     def translate(self, text: str, source_language: Language, target_language: Language = Language.ENGLISH) -> str:
         self.load_model()
         self.tokenizer.src_lang = source_language.get_code()
-        tokens = []
         sentences = text.split('. ')
-        for sentence in sentences:
-            encoded_text = self.tokenizer(sentence, return_tensors="pt")
+        sentences = [sentence + '.' for sentence in sentences]
+
+        paragraphs = []
+        tokens = []
+        while len(sentences) > 0:
+            sentence = sentences.pop(0).split(' ')
+            if len(tokens) + len(sentence) > self.max_tokens:
+                paragraphs.append(tokens)
+                tokens = []
+            else:
+                tokens.extend(sentence)
+
+        if len(tokens) > 0:
+            paragraphs.append(tokens)
+
+        chunks = []
+        for paragraph in paragraphs:
+            encoded_text = self.tokenizer(' '.join(paragraph), return_tensors="pt")
             generated_tokens = self.model.generate(
                 **encoded_text,
                 forced_bos_token_id=self.tokenizer.lang_code_to_id[target_language.get_code()]
             )
-            tokens.append(generated_tokens[0])
-        decoded_tokens = self.tokenizer.batch_decode(tokens, skip_special_tokens=True)
+            generated_tokens = generated_tokens[0]
+            chunks.append(generated_tokens)
+        decoded_tokens = self.tokenizer.batch_decode(chunks, skip_special_tokens=True)
         translation = ' '.join(decoded_tokens)
         self.clean_memory()
         return translation
