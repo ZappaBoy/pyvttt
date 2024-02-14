@@ -9,6 +9,7 @@ __version__ = metadata.version(__package__ or __name__)
 from pyvttt.models.language import Language
 from pyvttt.models.log_level import LogLevel
 from pyvttt.services.content_downloader import ContentDownloader
+from pyvttt.services.summarizer import Summarizer
 from pyvttt.services.transcriber import Transcriber
 from pyvttt.services.translator import Translator
 from pyvttt.shared.utils.logger import Logger
@@ -22,6 +23,7 @@ class Pyvttt:
         self.content_downloader = None
         self.transcriber = None
         self.translator = None
+        self.summarizer = None
 
     def run(self):
         self.check_args()
@@ -43,35 +45,49 @@ class Pyvttt:
         self.content_downloader = ContentDownloader()
         self.transcriber = Transcriber(force_cpu=self.args.cpu)
         self.translator = Translator(force_cpu=self.args.cpu)
+        self.summarizer = Summarizer(force_cpu=self.args.cpu)
 
         if self.args.threads:
             self.logger.info(f"Setting number of threads to {self.args.threads}")
             self.transcriber.set_threads(self.args.threads)
             self.translator.set_threads(self.args.threads)
+            self.translator.set_threads(self.args.threads)
 
         for url in urls:
             audio_path, title = self.content_downloader.download_audio(url)
-            transcription = self.transcriber.transcribe(audio_path)
-            if self.args.translate:
-                audio_language = self.transcriber.detect_language(audio_path)
-                required_language = Language.get(str(self.args.translate).lower())
-                self.logger.info(
-                    f"Translating {title} from {audio_language.long_language} to {required_language.long_language}")
-                transcription = self.translator.translate(transcription, src_language=audio_language,
-                                                          target_language=required_language)
+            output = self.transcriber.transcribe(audio_path)
+
+            if self.args.translate or self.args.summarize:
+                source_language = self.detect_audio_language(audio_path)
+                if self.args.summarize:
+                    target_language = Language.ENGLISH
+                    output = self.translate_audio(output, source_language, target_language)
+                    output = self.summarizer.summarize(output, strength=self.args.summarize)
+                    source_language = target_language
+                if self.args.translate:
+                    target_language = Language.get(str(self.args.translate).lower())
+                    output = self.translate_audio(output, source_language, target_language)
 
             if self.args.stdout:
-                print(transcription)
+                print(output)
             if self.args.output:
                 if os.path.isdir(self.args.output):
                     filepath = os.path.join(self.args.output, self.get_transcription_filename(title))
-                    self.save_transcription(transcription, filepath)
+                    self.save_output(output, filepath)
                 else:
-                    self.save_transcription(transcription, self.args.output)
+                    self.save_output(output, self.args.output)
             else:
                 audio_dir = os.path.dirname(audio_path)
                 transcription_path = os.path.join(audio_dir, self.get_transcription_filename(title))
-                self.save_transcription(transcription, transcription_path)
+                self.save_output(output, transcription_path)
+
+    def detect_audio_language(self, audio_path: str) -> Language:
+        return self.transcriber.detect_language(audio_path)
+
+    def translate_audio(self, text: str, source_language: Language, target_language: Language):
+        if source_language == target_language:
+            return text
+        return self.translator.translate(text, source_language=source_language, target_language=target_language)
 
     @staticmethod
     def read_uncommented_lines_from_file(filename):
@@ -88,9 +104,9 @@ class Pyvttt:
         return f"{title}_transcription.txt"
 
     @staticmethod
-    def save_transcription(transcription: str, path: str) -> None:
+    def save_output(text: str, path: str) -> None:
         with open(path, 'w') as f:
-            f.write(transcription)
+            f.write(text)
 
     @staticmethod
     def parse_args() -> Namespace:
@@ -115,6 +131,9 @@ class Pyvttt:
                             help='Force to download the video even if it is already downloaded')
         parser.add_argument('--translate', '-l', type=str,
                             help='Translate transcription to the specified language. Default is english.')
+        parser.add_argument('--summarize', '-m', type=int,
+                            help='Summarize transcription, you can define a summarization strength between 0 and 100. '
+                                 'Suggested value: 90.')
         return parser.parse_args()
 
     def check_args(self) -> None:

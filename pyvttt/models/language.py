@@ -56,8 +56,6 @@ class Language(Enum):
     SLOVENE = ('slovene', 'sl', 'sl_SI')
 
     def __new__(cls, long_language: str = None, short_language: str = None, code: str = None):
-        # if long_language is None:
-
         member = object.__new__(cls)
         member.long_language = long_language
         member.short_language = short_language

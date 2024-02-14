@@ -16,6 +16,7 @@ gpus.
 If you have an `AMD` gpu you can install the `ROCm` dependencies uncommenting the `torch` and `torchvision` specific
 lines in
 the `pyproject.toml` file and running the following command:
+
 ``` shell
 poetry lock && poetry install
 ```
@@ -48,7 +49,8 @@ pyvttt --help
 ```
 
 ```shell
-usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version] [--url URL] [--file FILE] [--output OUTPUT] [--stdout | --no-stdout | -s] [--threads THREADS]
+usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version] [--url URL] [--file FILE] [--output OUTPUT] [--stdout | --no-stdout | -s]
+              [--threads THREADS] [--cpu | --no-cpu | -c] [--force-download | --no-force-download | -d] [--translate TRANSLATE] [--summarize SUMMARIZE]
 
 pyvttt is a simple Video-to-Text Transcriber written in Python.
 
@@ -66,6 +68,13 @@ options:
   --stdout, --no-stdout, -s
   --threads THREADS, -t THREADS
                         Number of threads to use. Default is half of the available cores.
+  --cpu, --no-cpu, -c   Force to use CPU instead of GPU.
+  --force-download, --no-force-download, -d
+                        Force to download the video even if it is already downloaded
+  --translate TRANSLATE, -l TRANSLATE
+                        Translate transcription to the specified language. Default is english.
+  --summarize SUMMARIZE, -m SUMMARIZE
+                        Summarize transcription, you can define a summarization strength between 0 and 100. Suggested value: 90.
 ```
 
 ## Transcribe single video by url
@@ -142,7 +151,15 @@ pyvttt --url "youtube_url" --output transcription.txt --translate italian
 - slovene (sl)
 ```
 
-## Transcribe multiple videos reading urls from a file
+## Summarize the transcription
+
+You can choose to summarize the transcription using the `--summarize` and defining the summarization strength:
+
+```shell
+pyvttt --url "youtube_url" --output transcription.txt --summarize 90
+```
+
+## Process multiple videos reading urls from a file
 
 You can run `pyvttt` on multiple videos by using file with urls:
 
@@ -152,6 +169,7 @@ second_video_url_here
 # this is a commented line that will be ignored
 third_video_url_here
 ```
+
 ```shell
 pyvttt --file urls.txt --output transcriptions
 ```
@@ -182,7 +200,8 @@ poetry run poetry2setup > setup.py
 
 ## Acknowledgements
 
-This project was generated using powerful tools and libraries such as [poetry](https://python-poetry.org/),
-[pydantic](https://docs.pydantic.dev/latest/), [pytest](https://docs.pytest.org/en/stable/), [openai-whisper](https://github.com/openai/whisper), [pytube](https://github.com/pytube/pytube)
-and more, I simply put the
-pieces together. Please check and support all the tools and libraries used in this project.
+This project was generated using powerful tools, libraries and pretrained models such
+as [poetry](https://python-poetry.org/),
+[pydantic](https://docs.pydantic.dev/latest/), [pytest](https://docs.pytest.org/en/stable/), [openai-whisper](https://github.com/openai/whisper), [pytube](https://github.com/pytube/pytube),
+[huggingface](https://huggingface.co/), [facebook/mbart](https://huggingface.co/facebook/mbart-large-50-many-to-many-mmt), [facebook/bart-cnn](facebook/bart-large-cnn)
+and more, I simply put the pieces together. Please check and support all the tools and libraries used in this project.

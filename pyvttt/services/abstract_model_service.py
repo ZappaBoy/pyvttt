@@ -26,5 +26,13 @@ class AbstractModelService(ABC):
     def get_available_device(self) -> Device:
         pass
 
+    @abstractmethod
+    def load_model(self) -> None:
+        pass
+
+    @abstractmethod
+    def clean_memory(self) -> None:
+        pass
+
     def is_gpu_available(self):
         return self.device == Device.GPU
