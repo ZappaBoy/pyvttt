@@ -49,8 +49,8 @@ pyvttt --help
 ```
 
 ```shell
-usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version] [--url URL] [--file FILE] [--output OUTPUT] [--stdout | --no-stdout | -s]
-              [--threads THREADS] [--cpu | --no-cpu | -c] [--force-download | --no-force-download | -d] [--translate TRANSLATE] [--summarize SUMMARIZE]
+usage: pyvttt [-h] [--verbose] [--debug] [--quiet | --no-quiet | -q] [--version] [--url URL [URL ...]] [--file FILE] [--output OUTPUT] [--stdout | --no-stdout | -s] [--threads THREADS] [--cpu | --no-cpu | -c] [--force-download | --no-force-download | -d] [--translate TRANSLATE]
+              [--summarize SUMMARIZE] [--audio AUDIO [AUDIO ...]]
 
 pyvttt is a simple Video-to-Text Transcriber written in Python.
 
@@ -61,7 +61,8 @@ options:
   --quiet, --no-quiet, -q
                         Do not print any output/log
   --version             Show version and exit.
-  --url URL, -u URL     URL of the video to download and transcribe.
+  --url URL [URL ...], -u URL [URL ...]
+                        URL(s) of the video to download and transcribe.
   --file FILE, -f FILE  Path to file with urls to download and transcribe.
   --output OUTPUT, -o OUTPUT
                         Path to save the transcription.
@@ -75,6 +76,8 @@ options:
                         Translate transcription to the specified language. Default is english.
   --summarize SUMMARIZE, -m SUMMARIZE
                         Summarize transcription, you can define a summarization strength between 0 and 100. Suggested value: 90.
+  --audio AUDIO [AUDIO ...], -a AUDIO [AUDIO ...]
+                        Audio file(s) to process. Supported formats: mp3, wav
 ```
 
 ## Transcribe single video by url
@@ -82,6 +85,25 @@ options:
 ```shell
 # note the double quotes around the url
 pyvttt --url "youtube_url" --output transcription.txt
+```
+
+## Transcribe multiple videos by url
+
+```shell
+# note the double quotes around the urls
+pyvttt --url "youtube_url" "another_youtube_url" --output transcriptions
+```
+
+## Transcribe audio file
+
+```shell
+pyvttt --audio "path/to/audio/file" --output transcription.txt
+```
+
+## Transcribe multiple audio files
+
+```shell
+pyvttt --audio "path/to/audio/file" "path/to/another/audio/file" --output transcriptions
 ```
 
 ## Translate the transcription

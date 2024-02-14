@@ -30,8 +30,8 @@ class Pyvttt:
         self.logger.info(f"Running...")
         self.logger.debug(self.args)
         urls = []
-        if self.args.url:
-            urls.append(self.args.url)
+        if self.args.urls:
+            urls.extend(self.args.urls)
         if self.args.file:
             urls.extend(self.read_uncommented_lines_from_file(filename=self.args.file))
 
@@ -53,8 +53,20 @@ class Pyvttt:
             self.translator.set_threads(self.args.threads)
             self.translator.set_threads(self.args.threads)
 
+        audio_paths = []
+        titles = []
         for url in urls:
             audio_path, title = self.content_downloader.download_audio(url)
+            audio_paths.append(audio_path)
+            titles.append(title)
+
+        if self.args.audio:
+            for audio_path in self.args.audio:
+                audio_paths.append(audio_path.name)
+                titles.append(os.path.basename(audio_path.name))
+
+        for audio_path, title in zip(audio_paths, titles):
+            self.logger.info(f"Processing: {title}")
             output = self.transcriber.transcribe(audio_path)
 
             if self.args.translate or self.args.summarize:
@@ -119,7 +131,8 @@ class Pyvttt:
                             required=False, help='Do not print any output/log')
         parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}',
                             help='Show version and exit.')
-        parser.add_argument('--url', '-u', type=str, help='URL of the video to download and transcribe.')
+        parser.add_argument('--url', '-u', type=str, nargs='+',
+                            help='URL(s) of the video to download and transcribe.')
         parser.add_argument('--file', '-f', type=str, help='Path to file with urls to download and transcribe.')
         parser.add_argument('--output', '-o', type=str, help='Path to save the transcription.')
         parser.add_argument('--stdout', '-s', action=argparse.BooleanOptionalAction, default=False)
@@ -134,6 +147,8 @@ class Pyvttt:
         parser.add_argument('--summarize', '-m', type=int,
                             help='Summarize transcription, you can define a summarization strength between 0 and 100. '
                                  'Suggested value: 90.')
+        parser.add_argument('--audio', '-a', type=argparse.FileType('r'), nargs='+',
+                            help='Audio file(s) to process. Supported formats: mp3, wav')
         return parser.parse_args()
 
     def check_args(self) -> None:
