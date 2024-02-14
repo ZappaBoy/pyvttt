@@ -77,7 +77,7 @@ options:
   --summarize SUMMARIZE, -m SUMMARIZE
                         Summarize transcription, you can define a summarization strength between 0 and 100. Suggested value: 90.
   --audio AUDIO [AUDIO ...], -a AUDIO [AUDIO ...]
-                        Audio file(s) to process. Supported formats: mp3, wav
+                        Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg
 ```
 
 ## Transcribe single video by url

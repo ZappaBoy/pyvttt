@@ -2,6 +2,7 @@ import argparse
 import importlib.metadata as metadata
 import multiprocessing
 import os
+import sys
 from argparse import Namespace
 
 __version__ = metadata.version(__package__ or __name__)
@@ -148,12 +149,13 @@ class Pyvttt:
                             help='Summarize transcription, you can define a summarization strength between 0 and 100. '
                                  'Suggested value: 90.')
         parser.add_argument('--audio', '-a', type=argparse.FileType('r'), nargs='+',
-                            help='Audio file(s) to process. Supported formats: mp3, wav')
-        return parser.parse_args()
+                            help='Audio file(s) to process. Supported formats: m4a, mp3, webm, mp4, mpga, wav and mpeg')
+        return parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
     def check_args(self) -> None:
         error_message = ""
-        # Add arguments checks here
+        if self.args.url is None and self.args.file is None and self.args.audio is None:
+            error_message += "No url or file specified. Please specify at least one url or file."
         if error_message != "":
             self.logger.error(error_message)
             exit(1)
